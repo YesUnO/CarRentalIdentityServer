@@ -1,5 +1,7 @@
 using CarRentalIdentityServer.Data;
+using duende;
 using Duende.IdentityServer;
+using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -13,7 +15,7 @@ namespace CarRentalIdentityServer
             builder.Services.AddRazorPages();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -43,11 +45,13 @@ namespace CarRentalIdentityServer
                     // register your IdentityServer with Google at https://console.developers.google.com
                     // enable the Google+ API
                     // set the redirect URI to https://localhost:5001/signin-google
-                    options.ClientId = "copy client ID from Google here";
-                    options.ClientSecret = "copy client secret from Google here";
+                    options.ClientId = builder.Configuration["ExternalAuthenticationProviders:GoogleClientId"];
+                    options.ClientSecret = builder.Configuration["ExternalAuthenticationProviders:GoogleClientSecret"];
                 });
 
+            builder.Services.AddTransient<IProfileService, ProfileService>();
             return builder.Build();
+
         }
 
         public static WebApplication ConfigurePipeline(this WebApplication app)
