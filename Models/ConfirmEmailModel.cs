@@ -1,5 +1,4 @@
-﻿
-namespace Core.ControllerModels.Auth
+﻿namespace CarRentalIdentityServer.Models
 {
     public class ConfirmEmailModel
     {
