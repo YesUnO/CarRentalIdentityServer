@@ -38,6 +38,7 @@ namespace CarRentalIdentityServer
                 {
                     ClientId = "interactive",
                     ClientSecrets = { new Secret("yo") },
+                    RequireClientSecret= false,
 
                     AllowedGrantTypes = GrantTypes.Code,
 
