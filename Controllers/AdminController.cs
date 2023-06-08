@@ -1,4 +1,6 @@
 ﻿using CarRentalIdentityServer.Models;
+using Core.ControllerModels.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,6 +46,30 @@ namespace CarRentalIdentityServer.Controllers
                 return BadRequest("Registration failed");
             }
         }
+
+
+
+        [HttpGet]
+        [Route("ConfirmMail")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmMail([FromQuery] ConfirmEmailModel model)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                var res = await _userManager.ConfirmEmailAsync(user, model.Token);
+                string referrerUrl = Request.Headers["Referer"].ToString();
+                return Redirect($"{referrerUrl}/confirmEmail");
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Confirming mail failed.");
+                return BadRequest();
+            }
+
+        }
+
 
 
     }
