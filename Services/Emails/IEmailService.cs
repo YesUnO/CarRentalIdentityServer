@@ -1,4 +1,4 @@
-﻿namespace CarRentalIdentityServer.Services
+﻿namespace CarRentalIdentityServer.Services.Emails
 {
     public interface IEmailService
     {

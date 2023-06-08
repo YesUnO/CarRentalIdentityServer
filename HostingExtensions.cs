@@ -1,6 +1,7 @@
 using CarRentalIdentityServer.Data;
 using CarRentalIdentityServer.Options;
-using CarRentalIdentityServer.Services;
+using CarRentalIdentityServer.Services.Emails;
+using Core.Infrastructure.Options;
 using duende;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Services;
@@ -14,6 +15,20 @@ namespace CarRentalIdentityServer
     {
         public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
         {
+
+            var apiUrls = builder.WebHost.GetSetting(WebHostDefaults.ServerUrlsKey).Split(";");
+            var baseApiUrls = new BaseApiUrls
+            {
+                HttpsUrl = apiUrls.FirstOrDefault(x => x.StartsWith("https:")),
+                HttpUrl = apiUrls.FirstOrDefault(x => x.StartsWith("http:"))
+            };
+            builder.Services.AddOptions<BaseApiUrls>()
+                .Configure(x =>
+                {
+                    x.HttpsUrl = baseApiUrls.HttpsUrl;
+                    x.HttpUrl = baseApiUrls.HttpUrl;
+                });
+
             builder.Services.AddRazorPages();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>

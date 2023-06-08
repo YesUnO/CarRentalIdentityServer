@@ -3,7 +3,7 @@ using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
-namespace CarRentalIdentityServer.Services
+namespace CarRentalIdentityServer.Services.Emails
 {
     public class EmailService : IEmailService
     {

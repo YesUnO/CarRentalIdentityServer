@@ -1,20 +1,27 @@
 ﻿using CarRentalIdentityServer.Models;
+using CarRentalIdentityServer.Services.Emails;
+using Core.Infrastructure.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Web;
 
 namespace CarRentalIdentityServer.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AdminController: ControllerBase
     {
         private readonly ILogger<AdminController> _logger;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IEmailService _emailService;
+        private readonly BaseApiUrls _baseApiUrls;
 
-        public AdminController(ILogger<AdminController> logger, UserManager<IdentityUser> userManager)
+        public AdminController(ILogger<AdminController> logger, UserManager<IdentityUser> userManager, IEmailService emailService, BaseApiUrls baseApiUrls)
         {
             _logger = logger;
             _userManager = userManager;
+            _emailService = emailService;
+            _baseApiUrls = baseApiUrls;
         }
 
         [HttpPost]
@@ -22,20 +29,17 @@ namespace CarRentalIdentityServer.Controllers
         {
             try
             {
-                var emailAvailable = await _userManager.FindByEmailAsync(model.Email) is null;
-                var usernameAvailable = await _userManager.FindByNameAsync(model.UserName) is null;
-                if (!emailAvailable)
+                var identityUser = new IdentityUser
                 {
-                    _logger.LogError("Email unavailable");
-                    return BadRequest("Email unavailable");
-                }
-
-                if (!usernameAvailable)
+                    UserName= model.UserName,
+                    Email= model.Email,
+                };
+                var creatingUserResult = await _userManager.CreateAsync(identityUser, model.Password);
+                if (!creatingUserResult.Succeeded)
                 {
-                    _logger.LogError("Username unavailable");
-                    return BadRequest("Username unavailable");
+                    _logger.LogError("Registration failed");
+                    return BadRequest(creatingUserResult.Errors);
                 }
-
                 return Ok();
             }
             catch (Exception ex)
