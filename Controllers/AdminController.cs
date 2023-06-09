@@ -43,6 +43,7 @@ namespace CarRentalIdentityServer.Controllers
                     _logger.LogError("Registration failed", creatingUserResult.Errors);
                     return BadRequest(creatingUserResult.Errors);
                 }
+                await _userManager.AddToRoleAsync(identityUser, "Customer");
                 var confirmAccountToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
 
                 return Ok(confirmAccountToken);

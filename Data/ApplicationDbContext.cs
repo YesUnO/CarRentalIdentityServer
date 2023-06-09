@@ -31,7 +31,7 @@ namespace CarRentalIdentityServer.Data
                 EmailConfirmed = true,
                 UserName = "admin",
                 NormalizedUserName = "ADMIN",
-                NormalizedEmail = "VILEM.CECH@GMAIL.COM",
+                NormalizedEmail = "RAR.CENTAL@GMAIL.COM",
                 PhoneNumber = "773951604",
                 PhoneNumberConfirmed = true,
             };
