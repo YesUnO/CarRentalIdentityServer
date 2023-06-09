@@ -44,9 +44,9 @@ namespace CarRentalIdentityServer.Controllers
                     return BadRequest(creatingUserResult.Errors);
                 }
                 await _userManager.AddToRoleAsync(identityUser, "Customer");
-                var confirmAccountToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
+                var confirmEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
 
-                return Ok(confirmAccountToken);
+                return Ok(new { ConfirmEmailToken = confirmEmailToken });
             }
             catch (Exception ex)
             {
