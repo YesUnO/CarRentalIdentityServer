@@ -1,14 +1,17 @@
 ﻿using CarRentalIdentityServer.Models;
 using CarRentalIdentityServer.Options;
 using CarRentalIdentityServer.Services.Emails;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Web;
+using static Duende.IdentityServer.IdentityServerConstants;
 
 namespace CarRentalIdentityServer.Controllers
 {
+    [Authorize(LocalApi.PolicyName)]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController: ControllerBase
@@ -25,14 +28,13 @@ namespace CarRentalIdentityServer.Controllers
         }
 
         [HttpPost]
-        [Authorize("register")]
         public async Task<IActionResult> Register(RegisterRequestModel model)
         {
             try
             {
                 var identityUser = new IdentityUser
                 {
-                    UserName= model.UserName,
+                    UserName= model.Username,
                     Email= model.Email,
                 };
                 var creatingUserResult = await _userManager.CreateAsync(identityUser, model.Password);

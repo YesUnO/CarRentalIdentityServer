@@ -4,6 +4,7 @@ using CarRentalIdentityServer.Services.Emails;
 using duende;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -54,7 +55,7 @@ namespace CarRentalIdentityServer
                 .AddInMemoryClients(Config.Clients)
                 .AddAspNetIdentity<IdentityUser>();
 
-            builder.Services.AddAuthentication()
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddGoogle(options =>
                 {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
@@ -68,9 +69,8 @@ namespace CarRentalIdentityServer
 
             builder.Services.AddTransient<IProfileService, ProfileService>();
 
+            builder.Services.AddLocalApiAuthentication(); 
 
-            builder.Services.AddSingleton<IEmailService, EmailService>();
-            builder.Services.Configure<EmailsSettings>(builder.Configuration.GetSection("EmailsSettings"));
             return builder.Build();
 
         }
@@ -85,12 +85,15 @@ namespace CarRentalIdentityServer
             }
 
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseRouting();
             app.UseIdentityServer();
             app.UseAuthorization();
 
             app.MapRazorPages()
                 .RequireAuthorization();
+
+            app.MapControllers();
 
             return app;
         }
