@@ -16,19 +16,19 @@ namespace CarRentalIdentityServer
         public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
         {
 
-            var apiUrls = builder.WebHost.GetSetting(WebHostDefaults.ServerUrlsKey).Split(";");
-            var baseApiUrls = new BaseApiUrls
-            {
-                HttpsUrl = apiUrls.FirstOrDefault(x => x.StartsWith("https:")),
-                HttpUrl = apiUrls.FirstOrDefault(x => x.StartsWith("http:"))
-            };
-            builder.Services.AddOptions<BaseApiUrls>()
-                .Configure(x =>
-                {
-                    x.HttpsUrl = baseApiUrls.HttpsUrl;
-                    x.HttpUrl = baseApiUrls.HttpUrl;
-                    x.FrontEndUrl = builder.Configuration["FrontEndUrl"];
-                });
+            //var apiUrls = builder.WebHost.GetSetting(WebHostDefaults.ServerUrlsKey).Split(";");
+            //var baseApiUrls = new BaseApiUrls
+            //{
+            //    HttpsUrl = apiUrls.FirstOrDefault(x => x.StartsWith("https:")),
+            //    HttpUrl = apiUrls.FirstOrDefault(x => x.StartsWith("http:"))
+            //};
+            //builder.Services.AddOptions<BaseApiUrls>()
+            //    .Configure(x =>
+            //    {
+            //        x.HttpsUrl = baseApiUrls.HttpsUrl;
+            //        x.HttpUrl = baseApiUrls.HttpUrl;
+            //        x.FrontEndUrl = builder.Configuration["FrontEndUrl"];
+            //    });
 
             builder.Services.AddRazorPages();
 

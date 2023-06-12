@@ -1,12 +1,9 @@
 ﻿using CarRentalIdentityServer.Models;
 using CarRentalIdentityServer.Options;
-using CarRentalIdentityServer.Services.Emails;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System.Web;
 using static Duende.IdentityServer.IdentityServerConstants;
 
 namespace CarRentalIdentityServer.Controllers
@@ -55,6 +52,25 @@ namespace CarRentalIdentityServer.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("EmailConfirmation")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetEmailConfirmationToken([FromQuery]string email)
+        {
+            try
+            {
+                var identityUser = await _userManager.FindByEmailAsync(email);
+                var confirmEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
+
+                return Ok(new { ConfirmEmailToken = confirmEmailToken });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Get email tonfirmation token failed.", ex);
+                return BadRequest("Get email tonfirmation token failed.");
+            }
+            
+        }
 
         [HttpGet]
         [Route("ConfirmMail")]
