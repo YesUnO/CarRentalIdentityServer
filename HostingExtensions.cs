@@ -1,6 +1,5 @@
 using CarRentalIdentityServer.Data;
 using CarRentalIdentityServer.Options;
-using CarRentalIdentityServer.Services.Emails;
 using duende;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Services;

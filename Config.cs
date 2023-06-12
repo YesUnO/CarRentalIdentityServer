@@ -38,7 +38,7 @@ namespace CarRentalIdentityServer
                 // interactive client using code flow + pkce
                 new Client
                 {
-                    ClientId = "interactive",
+                    ClientId = "customer",
                     ClientSecrets = { new Secret("yo") },
                     RequireClientSecret= false,
 
