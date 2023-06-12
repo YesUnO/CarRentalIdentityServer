@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarRentalIdentityServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230607202845_init")]
+    [Migration("20230612085456_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,14 +53,14 @@ namespace CarRentalIdentityServer.Migrations
                         new
                         {
                             Id = "b49e5e21-bcdb-4fac-b8ea-bfa2d81168f7",
-                            ConcurrencyStamp = "6381316f-5aad-408a-9605-74c4baa59163",
+                            ConcurrencyStamp = "622ea0be-e39f-4b68-828e-10c076b7a620",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "0b5141f7-3aed-4cf9-a51d-4ad671703e1f",
-                            ConcurrencyStamp = "32b7c445-9667-4391-89f1-33a9b17bc8e3",
+                            ConcurrencyStamp = "779c1133-7f84-4f9c-9827-2b95853906e5",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -159,16 +159,16 @@ namespace CarRentalIdentityServer.Migrations
                         {
                             Id = "1b7fe7c6-fc40-4f0e-934e-7c83f9d75406",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "223e04f2-644e-4ac5-ba68-441255257bf7",
+                            ConcurrencyStamp = "70d38444-3506-4428-97d4-aaad5ef91aca",
                             Email = "rar.cental@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "VILEM.CECH@GMAIL.COM",
+                            NormalizedEmail = "RAR.CENTAL@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEI5X+ST2SOV/hnDebsxKlmfesAFrYYGDv0a6nC4c4nWzKPzOjbnNwsC6Kr+lkItSUA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA3lEsp3Bn03B9BZDEwN3nedkYQMs/Q+anP5SaYupcDRByWQRRMajjDJH01OclFTXQ==",
                             PhoneNumber = "773951604",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "a15097dd-b632-4042-978a-cecd08bbb6aa",
+                            SecurityStamp = "2a7fba36-d721-4ca2-bb86-861921f853b6",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });

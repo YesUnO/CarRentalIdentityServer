@@ -160,14 +160,14 @@ namespace CarRentalIdentityServer.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0b5141f7-3aed-4cf9-a51d-4ad671703e1f", "32b7c445-9667-4391-89f1-33a9b17bc8e3", "Customer", "CUSTOMER" },
-                    { "b49e5e21-bcdb-4fac-b8ea-bfa2d81168f7", "6381316f-5aad-408a-9605-74c4baa59163", "Admin", "ADMIN" }
+                    { "0b5141f7-3aed-4cf9-a51d-4ad671703e1f", "779c1133-7f84-4f9c-9827-2b95853906e5", "Customer", "CUSTOMER" },
+                    { "b49e5e21-bcdb-4fac-b8ea-bfa2d81168f7", "622ea0be-e39f-4b68-828e-10c076b7a620", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1b7fe7c6-fc40-4f0e-934e-7c83f9d75406", 0, "223e04f2-644e-4ac5-ba68-441255257bf7", "rar.cental@gmail.com", true, false, null, "VILEM.CECH@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEI5X+ST2SOV/hnDebsxKlmfesAFrYYGDv0a6nC4c4nWzKPzOjbnNwsC6Kr+lkItSUA==", "773951604", true, "a15097dd-b632-4042-978a-cecd08bbb6aa", false, "admin" });
+                values: new object[] { "1b7fe7c6-fc40-4f0e-934e-7c83f9d75406", 0, "70d38444-3506-4428-97d4-aaad5ef91aca", "rar.cental@gmail.com", true, false, null, "RAR.CENTAL@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEA3lEsp3Bn03B9BZDEwN3nedkYQMs/Q+anP5SaYupcDRByWQRRMajjDJH01OclFTXQ==", "773951604", true, "2a7fba36-d721-4ca2-bb86-861921f853b6", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

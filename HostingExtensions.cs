@@ -15,7 +15,6 @@ namespace CarRentalIdentityServer
     {
         public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
         {
-
             var apiUrls = builder.WebHost.GetSetting(WebHostDefaults.ServerUrlsKey).Split(";");
             var baseApiUrls = new BaseApiUrls
             {
@@ -35,7 +34,9 @@ namespace CarRentalIdentityServer
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+                options.User.RequireUniqueEmail = true
+            )
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -69,7 +70,7 @@ namespace CarRentalIdentityServer
 
             builder.Services.AddTransient<IProfileService, ProfileService>();
 
-            builder.Services.AddLocalApiAuthentication(); 
+            builder.Services.AddLocalApiAuthentication();
 
             return builder.Build();
 

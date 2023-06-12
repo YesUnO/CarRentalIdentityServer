@@ -11,7 +11,7 @@ namespace CarRentalIdentityServer.Controllers
     [Authorize(LocalApi.PolicyName)]
     [Route("api/[controller]")]
     [ApiController]
-    public class AdminController: ControllerBase
+    public class AdminController : ControllerBase
     {
         private readonly ILogger<AdminController> _logger;
         private readonly UserManager<IdentityUser> _userManager;
@@ -31,31 +31,31 @@ namespace CarRentalIdentityServer.Controllers
             {
                 var identityUser = new IdentityUser
                 {
-                    UserName= model.Username,
-                    Email= model.Email,
+                    UserName = model.Username,
+                    Email = model.Email,
                 };
                 var creatingUserResult = await _userManager.CreateAsync(identityUser, model.Password);
                 if (!creatingUserResult.Succeeded)
                 {
                     _logger.LogError("Registration failed", creatingUserResult.Errors);
-                    return BadRequest(creatingUserResult.Errors);
+                    return BadRequest(new RegisterResponseModel { Succeeded = false, Errors = creatingUserResult.Errors });
                 }
                 await _userManager.AddToRoleAsync(identityUser, "Customer");
                 var confirmEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
 
-                return Ok(new { ConfirmEmailToken = confirmEmailToken });
+                return Ok(new RegisterResponseModel { Succeeded = true, EmailConfirmationToken = confirmEmailToken });
             }
             catch (Exception ex)
             {
                 _logger.LogError("Registration failed", ex);
-                return BadRequest("Registration failed");
+                return BadRequest(new RegisterResponseModel { Succeeded = false, Exception = ex });
             }
         }
 
         [HttpGet]
         [Route("EmailConfirmation")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetEmailConfirmationToken([FromQuery]string email)
+        public async Task<IActionResult> GetEmailConfirmationToken([FromQuery] string email)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace CarRentalIdentityServer.Controllers
                 _logger.LogError("Get email tonfirmation token failed.", ex);
                 return BadRequest("Get email tonfirmation token failed.");
             }
-            
+
         }
 
         [HttpGet]
