@@ -10,7 +10,6 @@ namespace CarRentalIdentityServer
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResource("cred", new string[] {"role", "email"}),
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -22,7 +21,6 @@ namespace CarRentalIdentityServer
         public static IEnumerable<Client> Clients =>
             new Client[]
                 {
-                // m2m client credentials flow client
                 new Client
                 {
                     ClientId = "register",
@@ -35,7 +33,6 @@ namespace CarRentalIdentityServer
                     AllowedScopes = { IdentityServerConstants.LocalApi.ScopeName }
                 },
 
-                // interactive client using code flow + pkce
                 new Client
                 {
                     ClientId = "customer",
@@ -49,7 +46,7 @@ namespace CarRentalIdentityServer
                     PostLogoutRedirectUris = { "https://localhost:5173/signout-callback-oidc" },
 
                     AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "cred" }
+                    AllowedScopes = { "openid", "profile", }
                 },
             };
     }

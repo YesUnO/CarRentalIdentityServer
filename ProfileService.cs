@@ -23,7 +23,8 @@ namespace duende
         {
             return claim.Type.Equals(JwtClaimTypes.Name, StringComparison.OrdinalIgnoreCase) ||
                    claim.Type.Equals(JwtClaimTypes.Email, StringComparison.OrdinalIgnoreCase) ||
-                   claim.Type.Equals(JwtClaimTypes.Role, StringComparison.OrdinalIgnoreCase);
+                   claim.Type.Equals(JwtClaimTypes.Role, StringComparison.OrdinalIgnoreCase) ||
+                   claim.Type.Equals(JwtClaimTypes.EmailVerified, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
