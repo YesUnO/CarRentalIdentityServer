@@ -114,6 +114,7 @@ namespace CarRentalIdentityServer.Pages.ExternalLogin
             {
                 Id = sub,
                 UserName = sub, // don't need a username, since the user will be using an external provider to login
+                EmailConfirmed= true,
             };
 
             // email
@@ -165,6 +166,15 @@ namespace CarRentalIdentityServer.Pages.ExternalLogin
 
             identityResult = await _userManager.AddLoginAsync(user, new UserLoginInfo(provider, providerUserId, provider));
             if (!identityResult.Succeeded) throw new Exception(identityResult.Errors.First().Description);
+
+            var isCustomer = await _userManager.IsInRoleAsync(user, "Customer");
+
+            if (!isCustomer)
+            {
+                identityResult = await _userManager.AddToRoleAsync(user, "Customer");
+                if (!identityResult.Succeeded) throw new Exception(identityResult.Errors.First().Description);
+                else _logger.LogInformation($"Added {user.Email} customer role");
+            }
 
             return user;
         }
