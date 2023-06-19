@@ -33,5 +33,16 @@
                 <button class="btn btn-secondary" name="Input.Button" value="cancel">Cancel</button>
             </form>
         </div>
+
+        <div>
+            <ul class="list-inline">
+                <li class="list-inline-item">
+                    <a asp-page="/Account/Login/Index"
+                       asp-route-returnUrl="@Model.Input.ReturnUrl">
+                        Login
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>

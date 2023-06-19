@@ -1,12 +1,16 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CarRentalIdentityServer.Pages.Account.Register
 {
+    [SecurityHeaders]
+    [AllowAnonymous]
     public class Index : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
+
 
 
         [BindProperty]
@@ -17,8 +21,13 @@ namespace CarRentalIdentityServer.Pages.Account.Register
             _userManager = userManager;
         }
 
-        public void OnGet()
+        public void OnGet(string returnUrl)
         {
+
+            Input = new InputModel
+            {
+                ReturnUrl = returnUrl
+            };
         }
 
         public async Task<IActionResult> OnPost() 
