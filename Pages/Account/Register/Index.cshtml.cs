@@ -8,6 +8,10 @@ namespace CarRentalIdentityServer.Pages.Account.Register
     {
         private readonly UserManager<IdentityUser> _userManager;
 
+
+        [BindProperty]
+        public InputModel Input { get; set; }
+
         public Index(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
