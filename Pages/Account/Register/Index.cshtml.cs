@@ -60,7 +60,6 @@ namespace CarRentalIdentityServer.Pages.Account.Register
 
                     var context = await _interaction.GetAuthorizationContextAsync(Input.ReturnUrl);
                     var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, false, lockoutOnFailure: true);
-                    context.
                 }
             }
             var returnUrl = Input.ReturnUrl;
