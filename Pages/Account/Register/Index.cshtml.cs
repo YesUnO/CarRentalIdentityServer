@@ -1,7 +1,7 @@
+using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CarRentalIdentityServer.Pages.Account.Register
@@ -11,15 +11,19 @@ namespace CarRentalIdentityServer.Pages.Account.Register
     public class Index : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IIdentityServerInteractionService _interaction;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
         public ViewModel View { get; set; }
 
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public Index(UserManager<IdentityUser> userManager)
+        public Index(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IIdentityServerInteractionService interaction)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
+            _interaction = interaction;
         }
 
         public void OnGet(string returnUrl)
@@ -35,19 +39,28 @@ namespace CarRentalIdentityServer.Pages.Account.Register
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser
+                var identityUser = new IdentityUser
                 {
                     UserName = Input.Username,
                     Email = Input.Email
                 };
 
-                var creatingResult = await _userManager.CreateAsync(user, Input.Password);
+                var creatingResult = await _userManager.CreateAsync(identityUser, Input.Password);
                 if (!creatingResult.Succeeded)
                 {
                     foreach (var error in creatingResult.Errors)
                     {
-                       ModelState.AddModelError(ParseIdentityErrorCodesToFields(error.Code), error.Description);
+                       ModelState.AddModelError(string.Empty, error.Description);
                     }
+                }
+                else
+                {
+                    await _userManager.AddToRoleAsync(identityUser, "Customer");
+                    var confirmEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
+
+                    var context = await _interaction.GetAuthorizationContextAsync(Input.ReturnUrl);
+                    var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, false, lockoutOnFailure: true);
+                    context.
                 }
             }
             var returnUrl = Input.ReturnUrl;
