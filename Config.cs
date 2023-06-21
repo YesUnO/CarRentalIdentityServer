@@ -10,6 +10,7 @@ namespace CarRentalIdentityServer
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResource("verification",new string[] { "emailConfirmationToken" } )
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -46,7 +47,7 @@ namespace CarRentalIdentityServer
                     PostLogoutRedirectUris = { "https://localhost:5173/signout-callback-oidc" },
 
                     AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", }
+                    AllowedScopes = { "openid", "profile", "verification" }
                 },
             };
     }

@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace CarRentalIdentityServer.Pages.Account.Register
@@ -11,6 +12,8 @@ namespace CarRentalIdentityServer.Pages.Account.Register
         public string Password { get; set; }
         
         [Required]
+        [Compare("Password")]
+        [DisplayName("Confirm Password")]
         public string ConfirmPassword { get; set; }
 
         [Required]
