@@ -1,5 +1,7 @@
 using CarRentalIdentityServer.Data;
 using CarRentalIdentityServer.Options;
+using CarRentalIdentityServer.Services.Emails.Options;
+using CarRentalIdentityServer.Services.Emails;
 using duende;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Services;
@@ -68,6 +70,9 @@ namespace CarRentalIdentityServer
                 });
 
             builder.Services.AddTransient<IProfileService, ProfileService>();
+
+            builder.Services.AddSingleton<IEmailService, EmailService>();
+            builder.Services.Configure<EmailsSettings>(builder.Configuration.GetSection("EmailsSettings"));
 
             builder.Services.AddLocalApiAuthentication();
 
