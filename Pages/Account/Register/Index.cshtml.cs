@@ -74,7 +74,7 @@ namespace CarRentalIdentityServer.Pages.Account.Register
                     await _userManager.AddToRoleAsync(identityUser, "Customer");
 
                     var confirmEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
-                    await SendConfirmationMailAsync(identityUser.Email, confirmEmailToken, identityUser.UserName);
+                    await _emailService.SendConfirmationMailAsync(identityUser.Email, confirmEmailToken, identityUser.UserName);
 
                     var context = await _interaction.GetAuthorizationContextAsync(Input.ReturnUrl);
                     var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, false, lockoutOnFailure: true);
@@ -121,15 +121,5 @@ namespace CarRentalIdentityServer.Pages.Account.Register
             return Page();
         }
 
-        private async Task SendConfirmationMailAsync(string email, string confirmationEmailtoken, string name)
-        {
-            var subject = "Account confirmation";
-            var tokenEncoded = HttpUtility.UrlEncode(confirmationEmailtoken);
-            var baseUrl = new Uri(_baseApiUrls.HttpsUrl + "/api/email/ConfirmMail");
-            var link = $"{baseUrl}?token={tokenEncoded}&email={email}";
-            var body = $"Hello {name}," +
-                $"<p>Confirm your mail address with this link: <a href=\"{link}\">confirm mail link</a></p>";
-            await _emailService.SendEmailAsync(email, subject, body);
-        }
     }
 }
